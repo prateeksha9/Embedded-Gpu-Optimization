@@ -84,37 +84,7 @@ gpu-tiled-kernels/
 
 # GPU Memory Hierarchy Diagram
 
-```
-                 GPU Memory Hierarchy
-
-               +-------------------------------------+
-               |            Global Memory            |
-               |  - DRAM                             |
-               |  - High latency                     |
-               |  - Stores input/output tensors      |
-               +--------------------+----------------+
-                                    |
-                                    v
-               +-------------------------------------+
-               |            Shared Memory             |
-               |  - On-chip (per SM)                  |
-               |  - Low latency, banked               |
-               |  - Stores tiles and halo regions     |
-               +--------------------+----------------+
-                                    |
-                                    v
-               +-------------------------------------+
-               |              Registers               |
-               |  - Fastest memory                    |
-               |  - Per-thread accumulators           |
-               +--------------------+----------------+
-                                    |
-                                    v
-               +-------------------------------------+
-               |              ALUs / Cores            |
-               |  - Executes fused multiply-add       |
-               +-------------------------------------+
-```
+![Description of image](images/heirarchy.png)
 
 Shared memory sits between global DRAM and per-thread registers, making it the key component for tiling performance.
 
@@ -122,37 +92,7 @@ Shared memory sits between global DRAM and per-thread registers, making it the k
 
 # Code Architecture Diagram
 
-```
-+------------------------------------------------------+
-|                       main.cpp                       |
-+----------------------------+--------------------------+
-                             |
-                             v
-+------------------------------------------------------+
-|                   CPU Reference Code                 |
-|      Sequential GEMM / 1D / 2D Convolution           |
-+----------------------------+--------------------------+
-                             |
-                             | Calls top-level wrapper
-                             v
-+------------------------------------------------------+
-|                  Host Wrapper (Top Fn)               |
-|  cudaMalloc, cudaMemcpy, configure launch params     |
-|  Launch CUDA kernel, copy results back to host       |
-+----------------------------+--------------------------+
-                             |
-                             | Kernel Launch
-                             v
-+------------------------------------------------------+
-|                      CUDA Kernel                     |
-|------------------------------------------------------|
-| Shared Memory Tiling:                                |
-|   - Load tile or halo into shared memory             |
-|   - Synchronize threads                              |
-|   - Compute partial results                          |
-|   - Write final output to global memory              |
-+------------------------------------------------------+
-```
+![Description of image](images/data_flow.png)
 
 ---
 

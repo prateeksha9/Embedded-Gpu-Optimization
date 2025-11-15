@@ -169,17 +169,15 @@ Shared memory sits between global DRAM and per-thread registers, making it the k
 ## Performance Results
 
 | Test | Matrix Size                        | Tile | GPU (ms)  | CPU (ms)    | Speedup |
-|------|------------------------------------|------|-----------|-------------|---------|
+
 | 1    | (1859×1581) × (1581×1517)          | 4    | 2526.219  | 108339.023  | 43×     |
 |      |                                    | 8    | 1026.967  | 106117.703  | 103×    |
 |      |                                    | 16   | 751.545   | 108132.867  | 144×    |
 |      |                                    | 32   | 1193.495  | 105642.953  | 89×     |
-|------|------------------------------------|------|-----------|-------------|---------|
 | 2    | (1583×1955) × (1955×1867)          | 4    | 3386.916  | 133538.172  | 39×     |
 |      |                                    | 8    | 1284.919  | 132886.391  | 103×    |
 |      |                                    | 16   | 831.272   | 134054.703  | 161×    |
 |      |                                    | 32   | 723.611   | 133225.609  | 184×    |
-|------|------------------------------------|------|-----------|-------------|---------|
 | 3    | (1533×1888) × (1888×1539)          | 4    | 2294.096  | 107531.633  | 47×     |
 |      |                                    | 8    | 1301.611  | 108482.203  | 83×     |
 |      |                                    | 16   | 1037.627  | 107833.367  | 104×    |
@@ -189,12 +187,6 @@ Shared memory sits between global DRAM and per-thread registers, making it the k
 
 Tile 16 provides the best reuse–occupancy trade-off on Jetson Nano.
 Small tiles underutilize memory locality; very large tiles reduce active blocks.
-
-## Plot
-
-```
-![GEMM Performance](results/plots/gemm_performance.png)
-```
 
 ---
 
@@ -221,12 +213,6 @@ Small tiles underutilize memory locality; very large tiles reduce active blocks.
 
 Performance increases with block size until saturation around 32.
 
-## Plot
-
-```
-![1D Convolution Performance](results/plots/conv1d_performance.png)
-```
-
 ---
 
 # 3. Tiled 2-D Convolution (Multi-Channel CNN Layer)
@@ -250,12 +236,6 @@ Performance increases with block size until saturation around 32.
 ### Analysis
 
 Larger tiles greatly improve reuse and reduce halo duplication.
-
-## Plot
-
-```
-![2D Convolution Performance](results/plots/conv2d_performance.png)
-```
 
 ---
 
